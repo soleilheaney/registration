@@ -1,17 +1,17 @@
 # Phase 1: Foundation Setup & User Authentication
 
-## Ticket 1.1: Set up TanStack Start app in SST (deploy hello-world to AWS)
+## Ticket 1.1: Set up TanStack Start app in SST (deploy hello-world to AWS) ✅
 
 **Description:**  
 Initialize and configure the project scaffold with TanStack Start and SST deployment setup.
 
 **Acceptance Criteria:**
-- Create basic TanStack Start project structure
-- Set up SST configuration in `sst.config.ts`
-- Configure deployment settings for AWS
-- Ensure app can be run locally with `sst dev`
-- Verify deployment works with `sst deploy`
-- Document setup and deployment process
+- ✅ Create basic TanStack Start project structure
+- ✅ Set up SST configuration in `sst.config.ts`
+- ✅ Configure deployment settings for AWS
+- ✅ Ensure app can be run locally with `sst dev`
+- ✅ Verify deployment works with `sst deploy`
+- ✅ Document setup and deployment process
 
 **Technical Notes:**
 - Follow SST's TanStack Start example configuration
@@ -21,31 +21,34 @@ Initialize and configure the project scaffold with TanStack Start and SST deploy
 
 **Priority:** High
 **Estimated Effort:** 4-6 hours
+**Completed:** April 4, 2025
 
 ---
 
-## Ticket 1.2: Integrate Clerk and create auth routes
+## Ticket 1.2: Integrate Clerk and create auth routes ✅
 
 **Description:**  
 Add Clerk authentication system to the project and create necessary auth routes.
 
 **Acceptance Criteria:**
-- Set up Clerk account and get API keys
-- Install and configure Clerk's React SDK
-- Wrap app with `<ClerkProvider>`
-- Create sign-in route at `/signin` with Clerk's `<SignIn/>` component
-- Create sign-up route at `/signup` with Clerk's `<SignUp/>` component
-- Set up auth protection for authenticated routes
-- Test authentication flow works (sign up, sign in, sign out)
+- ✅ Set up Clerk account and get API keys
+- ✅ Install and configure Clerk's React SDK
+- ✅ Wrap app with `<ClerkProvider>` using environment variables
+- ✅ Create sign-in route at `/login` with Clerk's `<SignIn/>` component
+- ✅ Create sign-up route at `/signup` with Clerk's `<SignUp/>` component
+- ✅ Set up auth protection for authenticated routes
+- ✅ Test authentication flow works (sign up, sign in, sign out)
 
 **Technical Notes:**
-- Use Clerk's development mode initially
-- Configure Clerk with allowed redirect URLs
-- Leverage TanStack Router for protected routes (possibly under `_authed/` folder)
-- Consider adding social login options if desired
+- ✅ Use Clerk's development mode initially
+- ✅ Configure Clerk with allowed redirect URLs
+- ✅ Leverage TanStack Router for protected routes (using `_protected` route)
+- ✅ Use environment variables for Clerk API keys (VITE_CLERK_PUBLISHABLE_KEY)
+- ✅ Consider adding social login options if desired
 
 **Priority:** High
 **Estimated Effort:** 6-8 hours
+**Completed:** April 4, 2025
 
 ---
 
