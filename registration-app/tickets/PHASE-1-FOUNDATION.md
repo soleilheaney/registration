@@ -33,7 +33,7 @@ Add Clerk authentication system to the project and create necessary auth routes.
 **Acceptance Criteria:**
 - ✅ Set up Clerk account and get API keys
 - ✅ Install and configure Clerk's React SDK
-- ✅ Wrap app with `<ClerkProvider>`
+- ✅ Wrap app with `<ClerkProvider>` using environment variables
 - ✅ Create sign-in route at `/login` with Clerk's `<SignIn/>` component
 - ✅ Create sign-up route at `/signup` with Clerk's `<SignUp/>` component
 - ✅ Set up auth protection for authenticated routes
@@ -43,6 +43,7 @@ Add Clerk authentication system to the project and create necessary auth routes.
 - ✅ Use Clerk's development mode initially
 - ✅ Configure Clerk with allowed redirect URLs
 - ✅ Leverage TanStack Router for protected routes (using `_protected` route)
+- ✅ Use environment variables for Clerk API keys (VITE_CLERK_PUBLISHABLE_KEY)
 - ✅ Consider adding social login options if desired
 
 **Priority:** High
