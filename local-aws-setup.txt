@@ -1,0 +1,41 @@
+Access portal url
+https://d-9a676580b4.awsapps.com/start 
+
+https://identitycenter.amazonaws.com/ssoins-668407abcc02bee2
+
+
+AWS 
+Email:
+soleilheaneysports@gmail.com
+Admin Account name:
+soleil 
+Password:
+0l31lH3an3y
+
+
+Aws Root user (always use this one!)
+
+https://sjeness.awsapps.com/start
+	
+Username
+soleil_root
+Password
+1PlayQuidditch!
+
+3 accounts
+
+
+https://sjeness.awsapps.com/start
+soleil (management account)
+soleilheaneysports@gmail.com
+583359079127
+
+soleil-dev
+soleilheaneysports+dev@gmail.com
+267224240296
+
+soleil-production
+soleileheaneysports+production@gmail.com
+502744149701
+
+
