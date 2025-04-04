@@ -55,21 +55,16 @@ The Quadball Canada Registration & Events Platform is a web application designed
    npm install
    ```
 
-3. **Set up environment variables:**
-   Create a `.env` file with:
-   - `DATABASE_URL` (SQLite or PostgreSQL connection string)
-   - `CLERK_PUBLISHABLE_KEY` and `CLERK_SECRET_KEY` 
-   - `RESEND_API_KEY`
-   - `STRIPE_PUBLIC_KEY` and `STRIPE_SECRET_KEY` (if implementing payments)
-
-4. **Initialize the database:**
+3. **Configure AWS credentials and region**
    ```bash
-   npx prisma migrate dev --name init
+   aws configure sso
    ```
+   Or include manual credentials in `~/.aws/credentials` file
+   Either way, use profile soleil-dev
 
-5. **Run the development server:**
+4. **Run the development server:**
    ```bash
-   npm run dev
+   npx sst dev
    ```
    Access the app at http://localhost:3000
 
@@ -80,14 +75,8 @@ Deploying to AWS is done via SST:
 1. **Configure AWS credentials and region**
 2. **Deploy with SST:**
    ```bash
-   npx sst deploy --stage prod --region ca-central-1
+   npx sst deploy --stage dev
    ```
-
-3. **Post-deployment steps:**
-   - Configure Clerk redirect URLs for production domain
-   - Set up Stripe webhooks
-   - Seed initial organization and admin user
-   - Test the deployment thoroughly
 
 ## Implementation Plan
 
