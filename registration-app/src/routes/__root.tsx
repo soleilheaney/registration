@@ -13,7 +13,6 @@ import { NotFound } from '~/components/NotFound.js'
 import appCss from '~/styles/app.css?url'
 import { seo } from '~/utils/seo.js'
 
-
 export const Route = createRootRoute({
   head: () => ({
     meta: [

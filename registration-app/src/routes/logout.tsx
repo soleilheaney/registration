@@ -1,18 +1,22 @@
 import { createFileRoute, redirect } from '@tanstack/react-router'
-import { createServerFn } from '@tanstack/react-start'
-import { useAppSession } from '~/utils/session'
-
-const logoutFn = createServerFn().handler(async () => {
-  const session = await useAppSession()
-
-  session.clear()
-
-  throw redirect({
-    href: '/',
-  })
-})
+import { useClerk } from '@clerk/clerk-react'
+import * as React from 'react'
 
 export const Route = createFileRoute('/logout')({
-  preload: false,
-  loader: () => logoutFn(),
+  component: LogoutComp,
 })
+
+function LogoutComp() {
+  const { signOut } = useClerk()
+  
+  React.useEffect(() => {
+    const performSignOut = async () => {
+      await signOut()
+      window.location.href = '/'
+    }
+    
+    performSignOut()
+  }, [signOut])
+  
+  return <div>Logging out...</div>
+}
