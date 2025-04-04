@@ -10,6 +10,7 @@
     "start": "vinxi start"
   },
   "dependencies": {
+    "@clerk/clerk-react": "^5.25.6",
     "@prisma/client": "5.22.0",
     "@tanstack/react-router": "^1.114.29",
     "@tanstack/react-router-devtools": "^1.114.29",

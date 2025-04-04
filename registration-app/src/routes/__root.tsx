@@ -6,26 +6,14 @@ import {
   createRootRoute,
 } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
-import { createServerFn } from '@tanstack/react-start'
 import * as React from 'react'
+import { ClerkProvider, SignedIn, SignedOut, UserButton } from '@clerk/clerk-react'
 import { DefaultCatchBoundary } from '~/components/DefaultCatchBoundary.js'
 import { NotFound } from '~/components/NotFound.js'
 import appCss from '~/styles/app.css?url'
 import { seo } from '~/utils/seo.js'
-import { useAppSession } from '~/utils/session.js'
 
-const fetchUser = createServerFn({ method: 'GET' }).handler(async () => {
-  // We need to auth on the server so we have access to secure cookies
-  const session = await useAppSession()
-
-  if (!session.data.userEmail) {
-    return null
-  }
-
-  return {
-    email: session.data.userEmail,
-  }
-})
+const clerkPubKey = process.env.CLERK_PUBLISHABLE_KEY || 'pk_test_Y29tcGxldGUtcGlnZW9uLTM5LmNsZXJrLmFjY291bnRzLmRldiQ';
 
 export const Route = createRootRoute({
   head: () => ({
@@ -38,9 +26,8 @@ export const Route = createRootRoute({
         content: 'width=device-width, initial-scale=1',
       },
       ...seo({
-        title:
-          'TanStack Start | Type-Safe, Client-First, Full-Stack React Framework',
-        description: `TanStack Start is a type-safe, client-first, full-stack React framework. `,
+        title: 'Sports Registration | Quadball Canada',
+        description: 'Register for upcoming sports events and tournaments across Canada.',
       }),
     ],
     links: [
@@ -66,13 +53,6 @@ export const Route = createRootRoute({
       { rel: 'icon', href: '/favicon.ico' },
     ],
   }),
-  beforeLoad: async () => {
-    const user = await fetchUser()
-
-    return {
-      user,
-    }
-  },
   errorComponent: (props) => {
     return (
       <RootDocument>
@@ -86,15 +66,15 @@ export const Route = createRootRoute({
 
 function RootComponent() {
   return (
-    <RootDocument>
-      <Outlet />
-    </RootDocument>
+    <ClerkProvider publishableKey={clerkPubKey}>
+      <RootDocument>
+        <Outlet />
+      </RootDocument>
+    </ClerkProvider>
   )
 }
 
 function RootDocument({ children }: { children: React.ReactNode }) {
-  const { user } = Route.useRouteContext()
-
   return (
     <html>
       <head>
@@ -120,14 +100,14 @@ function RootDocument({ children }: { children: React.ReactNode }) {
             Posts
           </Link>
           <div className="ml-auto">
-            {user ? (
-              <>
-                <span className="mr-2">{user.email}</span>
-                <Link to="/logout">Logout</Link>
-              </>
-            ) : (
+            <SignedIn>
+              <div className="flex items-center gap-2">
+                <UserButton afterSignOutUrl="/" />
+              </div>
+            </SignedIn>
+            <SignedOut>
               <Link to="/login">Login</Link>
-            )}
+            </SignedOut>
           </div>
         </div>
         <hr />
