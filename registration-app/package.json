@@ -23,7 +23,6 @@
     "vinxi": "0.5.3"
   },
   "devDependencies": {
-    "@tanstack/eslint-plugin-query": "^4.38.0",
     "@types/node": "^22.5.4",
     "@types/react": "^19.0.8",
     "@types/react-dom": "^19.0.3",
