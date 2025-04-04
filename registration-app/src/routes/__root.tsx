@@ -7,13 +7,12 @@ import {
 } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
 import * as React from 'react'
-import { ClerkProvider, SignedIn, SignedOut, UserButton } from '@clerk/clerk-react'
+import { SignedIn, SignedOut, UserButton } from '@clerk/clerk-react'
 import { DefaultCatchBoundary } from '~/components/DefaultCatchBoundary.js'
 import { NotFound } from '~/components/NotFound.js'
 import appCss from '~/styles/app.css?url'
 import { seo } from '~/utils/seo.js'
 
-const clerkPubKey = process.env.CLERK_PUBLISHABLE_KEY || 'pk_test_Y29tcGxldGUtcGlnZW9uLTM5LmNsZXJrLmFjY291bnRzLmRldiQ';
 
 export const Route = createRootRoute({
   head: () => ({
@@ -66,11 +65,9 @@ export const Route = createRootRoute({
 
 function RootComponent() {
   return (
-    <ClerkProvider publishableKey={clerkPubKey}>
-      <RootDocument>
-        <Outlet />
-      </RootDocument>
-    </ClerkProvider>
+    <RootDocument>
+      <Outlet />
+    </RootDocument>
   )
 }
 
