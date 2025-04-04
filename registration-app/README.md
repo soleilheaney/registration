@@ -128,13 +128,8 @@ For more information on the implementation plan and architecture decisions, see 
    AWS_PROFILE=soleil-dev npx sst dev
    ```
 
-2. **In another terminal, start the frontend:**
-   ```bash
-   npm run dev
-   ```
-
-3. **Access the application:**
-   Open http://localhost:3000 in your browser
+2. **Access the application:**
+   Once you see "Complete" in the SST output (usually within 10 seconds), open http://localhost:3000 in your browser
 
 ### Deployment
 
