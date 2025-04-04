@@ -99,3 +99,51 @@ To begin implementation:
 3. Start with the "Set up TanStack Start app in SST" ticket
 
 For more information on the implementation plan and architecture decisions, see the detailed tickets in the `tickets/` directory.
+
+## Detailed Setup and Deployment Instructions
+
+### Initial Setup
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/soleilheaney/registration.git
+   cd registration/registration-app
+   ```
+
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+
+3. **Configure AWS credentials:**
+   Follow the AWS SSO login instructions from the main README, or run:
+   ```bash
+   aws sso login --profile soleil-dev
+   ```
+
+### Local Development
+
+1. **Start the SST development environment:**
+   ```bash
+   AWS_PROFILE=soleil-dev npx sst dev
+   ```
+
+2. **In another terminal, start the frontend:**
+   ```bash
+   npm run dev
+   ```
+
+3. **Access the application:**
+   Open http://localhost:3000 in your browser
+
+### Deployment
+
+1. **Deploy to AWS development environment:**
+   ```bash
+   AWS_PROFILE=soleil-dev npx sst deploy --stage dev
+   ```
+
+2. **For production deployment:**
+   ```bash
+   AWS_PROFILE=soleil-production npx sst deploy --stage production
+   ```
