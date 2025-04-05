@@ -13,9 +13,12 @@
     "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
+    "@anthropic-ai/claude-code": "^0.2.64",
     "@clerk/clerk-react": "^5.25.6",
     "@clerk/clerk-sdk-node": "^4.13.23",
     "@prisma/client": "5.22.0",
+    "@radix-ui/react-label": "^2.1.2",
+    "@radix-ui/react-slot": "^1.1.2",
     "@tanstack/react-router": "^1.114.29",
     "@tanstack/react-router-devtools": "^1.114.29",
     "@tanstack/react-start": "^1.114.30",
@@ -25,10 +28,12 @@
     "prisma": "^5.22.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-hook-form": "^7.55.0",
     "redaxios": "^0.5.1",
     "shadcn-ui": "^0.9.5",
     "sst": "^3.12.3",
     "tailwind-merge": "^2.6.0",
+    "tailwindcss-animate": "^1.0.7",
     "vinxi": "0.5.3"
   },
   "devDependencies": {
