@@ -12,4 +12,19 @@ describe('Button', () => {
     const { container } = render(<Button variant="destructive">Delete</Button>);
     expect(container.firstChild).toHaveClass('bg-destructive');
   });
+
+  it('applies size class', () => {
+    const { container } = render(<Button size="sm">Small</Button>);
+    expect(container.firstChild).toHaveClass('h-9');
+  });
+
+  it('renders as child when asChild is true', () => {
+    const { container } = render(
+      <Button asChild>
+        <a href="#">Link Button</a>
+      </Button>
+    );
+    expect(container.querySelector('a')).toBeInTheDocument();
+    expect(container.querySelector('button')).not.toBeInTheDocument();
+  });
 });
