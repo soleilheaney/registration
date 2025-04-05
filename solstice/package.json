@@ -7,10 +7,14 @@
     "build": "vinxi build",
     "dev": "vinxi dev",
     "prisma-generate": "prisma generate",
-    "start": "vinxi start"
+    "start": "vinxi start",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@clerk/clerk-react": "^5.25.6",
+    "@clerk/clerk-sdk-node": "^4.13.23",
     "@prisma/client": "5.22.0",
     "@tanstack/react-router": "^1.114.29",
     "@tanstack/react-router-devtools": "^1.114.29",
@@ -28,17 +32,23 @@
     "vinxi": "0.5.3"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
     "@types/node": "^22.5.4",
     "@types/react": "^19.0.8",
     "@types/react-dom": "^19.0.3",
+    "@vitejs/plugin-react": "^4.3.4",
+    "@vitest/coverage-v8": "^3.1.1",
     "autoprefixer": "^10.4.20",
     "eslint": "^9.23.0",
     "eslint-plugin-react": "^7.37.5",
     "globals": "^16.0.0",
+    "jsdom": "^26.0.0",
     "postcss": "^8.5.1",
     "tailwindcss": "^3.4.17",
     "typescript": "^5.7.2",
     "typescript-eslint": "^8.29.0",
-    "vite-tsconfig-paths": "^5.1.4"
+    "vite-tsconfig-paths": "^5.1.4",
+    "vitest": "^3.1.1"
   }
 }

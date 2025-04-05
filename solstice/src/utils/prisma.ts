@@ -1,16 +1,9 @@
-import crypto from 'node:crypto'
 import { PrismaClient } from '@prisma/client'
 
-export const prismaClient = new PrismaClient()
+const globalForPrisma = global as unknown as { prisma: PrismaClient }
 
-export function hashPassword(password: string) {
-  return new Promise<string>((resolve, reject) => {
-    crypto.pbkdf2(password, 'salt', 100000, 64, 'sha256', (err, derivedKey) => {
-      if (err) {
-        reject(err)
-      } else {
-        resolve(derivedKey.toString('hex'))
-      }
-    })
-  })
-}
+export const prismaClient = globalForPrisma.prisma || new PrismaClient()
+
+if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prismaClient
+
+export { prismaClient as prisma }
