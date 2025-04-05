@@ -8,15 +8,15 @@ export const Route = createFileRoute('/logout')({
 
 function LogoutComp() {
   const { signOut } = useClerk()
-  
+
   React.useEffect(() => {
     const performSignOut = async () => {
       await signOut()
       window.location.href = '/'
     }
-    
+
     performSignOut()
   }, [signOut])
-  
+
   return <div>Logging out...</div>
 }
