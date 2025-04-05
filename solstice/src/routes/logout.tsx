@@ -1,4 +1,4 @@
-import { createFileRoute, redirect } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router'
 import { useClerk } from '@clerk/clerk-react'
 import * as React from 'react'
 
