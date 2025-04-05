@@ -16,6 +16,23 @@ export default $config({
     };
   },
   async run() {
-    new sst.aws.TanStackStart("MyWeb");
+    const vpc = new sst.aws.Vpc("SolsticeVpc");
+    
+    const postgres = new sst.aws.Postgres("SolsticeDB", {
+      vpc,
+      version: "16.4",
+      storage: "20 GB",
+      dev: {
+        username: "postgres",
+        password: "postgres",
+        database: "solstice",
+        host: "localhost",
+        port: 5432
+      }
+    });
+    
+    new sst.aws.TanStackStart("MyWeb", {
+      link: [postgres]
+    });
   },
 });
