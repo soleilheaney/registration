@@ -20,12 +20,7 @@ This project uses AWS SSO for authentication. Make sure you have the AWS CLI ins
    ```
 
 2. Log in with SSO for development:
-   ```
-   aws sso login --sso-session=soleil
-   ```
-   
-   OR
-   
+
    ```
    aws sso login --profile soleil-dev
    ```
@@ -75,4 +70,4 @@ This ensures the right AWS profile is used, overriding any other profile that mi
 
 ## Deployment
 
-Deployments are managed through SST and target the configured AWS account. 
+Deployments are managed through SST and target the configured AWS account.
