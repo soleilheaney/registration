@@ -107,7 +107,7 @@ For more information on the implementation plan and architecture decisions, see 
 1. **Clone the repository:**
    ```bash
    git clone https://github.com/soleilheaney/registration.git
-   cd registration/registration-app
+   cd registration/solstice
    ```
 
 2. **Install dependencies:**

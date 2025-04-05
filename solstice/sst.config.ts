@@ -5,7 +5,7 @@
 export default $config({
   app(input) {
     return {
-      name: "sports-reg-platform",
+      name: "solstice",
       removal: input?.stage === "production" ? "retain" : "remove",
       home: "aws",
       providers: {
