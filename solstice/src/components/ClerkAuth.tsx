@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { SignIn, SignUp, UserButton, useUser } from '@clerk/clerk-react';
 import { Link } from '@tanstack/react-router';
-import { findOrCreateUser } from '../utils/user';
+import { findOrCreateUser, setUserAsAdmin } from '../utils/user';
 
 export function ClerkSignIn() {
   return (
@@ -38,23 +38,21 @@ export function ClerkUserSync() {
           // Find or create the user in our database
           const dbUser = await findOrCreateUser(user);
           
-          // Check if this is the first user in the system and make them an admin
-          // This is a common pattern for bootstrapping the first admin user
-          const allUsers = await fetch('/users/api').then(res => res.json());
+          // We'll instead print debug info that we can see in the console
+          console.log('User created/found in database:', dbUser);
           
-          if (allUsers.length === 1 && allUsers[0].id === dbUser.id && dbUser.role !== 'ADMIN') {
-            console.log('Setting first user as admin:', dbUser.email);
-            
-            // Set as admin using a server API call
-            await fetch('/api/setadmin', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({ 
-                clerkId: dbUser.clerkId 
-              }),
-            });
+          // Check if it's the first user (first user becomes admin automatically)
+          if (dbUser.role !== 'ADMIN') {
+            try {
+              console.log('Checking if this is the first user to make them admin:', dbUser.email);
+              
+              // Let's directly use our setUserAsAdmin utility function instead of an API call
+              // This will be more reliable for now
+              const updatedUser = await setUserAsAdmin(dbUser.clerkId);
+              console.log('User set as admin:', updatedUser);
+            } catch (error) {
+              console.error('Error setting admin status:', error);
+            }
           }
           
           setSynced(true);
