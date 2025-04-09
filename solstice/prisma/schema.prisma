@@ -16,6 +16,12 @@ model User {
   email     String   @unique
   firstName String?
   lastName  String?
+  role      Role     @default(PLAYER)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+enum Role {
+  ADMIN
+  PLAYER
 }

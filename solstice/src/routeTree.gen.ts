@@ -19,6 +19,8 @@ import { Route as AuthedImport } from './routes/_authed'
 import { Route as IndexImport } from './routes/index'
 import { Route as AuthedPostsRouteImport } from './routes/_authed/posts.route'
 import { Route as AuthedPostsIndexImport } from './routes/_authed/posts.index'
+import { Route as AuthedUsersApiImport } from './routes/_authed/users.api'
+import { Route as AuthedSetadminApiImport } from './routes/_authed/setadmin.api'
 import { Route as AuthedPostsPostIdImport } from './routes/_authed/posts.$postId'
 
 // Create/Update Routes
@@ -67,6 +69,18 @@ const AuthedPostsIndexRoute = AuthedPostsIndexImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AuthedPostsRouteRoute,
+} as any)
+
+const AuthedUsersApiRoute = AuthedUsersApiImport.update({
+  id: '/users/api',
+  path: '/users/api',
+  getParentRoute: () => AuthedRoute,
+} as any)
+
+const AuthedSetadminApiRoute = AuthedSetadminApiImport.update({
+  id: '/setadmin/api',
+  path: '/setadmin/api',
+  getParentRoute: () => AuthedRoute,
 } as any)
 
 const AuthedPostsPostIdRoute = AuthedPostsPostIdImport.update({
@@ -135,6 +149,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthedPostsPostIdImport
       parentRoute: typeof AuthedPostsRouteImport
     }
+    '/_authed/setadmin/api': {
+      id: '/_authed/setadmin/api'
+      path: '/setadmin/api'
+      fullPath: '/setadmin/api'
+      preLoaderRoute: typeof AuthedSetadminApiImport
+      parentRoute: typeof AuthedImport
+    }
+    '/_authed/users/api': {
+      id: '/_authed/users/api'
+      path: '/users/api'
+      fullPath: '/users/api'
+      preLoaderRoute: typeof AuthedUsersApiImport
+      parentRoute: typeof AuthedImport
+    }
     '/_authed/posts/': {
       id: '/_authed/posts/'
       path: '/'
@@ -162,10 +190,14 @@ const AuthedPostsRouteRouteWithChildren =
 
 interface AuthedRouteChildren {
   AuthedPostsRouteRoute: typeof AuthedPostsRouteRouteWithChildren
+  AuthedSetadminApiRoute: typeof AuthedSetadminApiRoute
+  AuthedUsersApiRoute: typeof AuthedUsersApiRoute
 }
 
 const AuthedRouteChildren: AuthedRouteChildren = {
   AuthedPostsRouteRoute: AuthedPostsRouteRouteWithChildren,
+  AuthedSetadminApiRoute: AuthedSetadminApiRoute,
+  AuthedUsersApiRoute: AuthedUsersApiRoute,
 }
 
 const AuthedRouteWithChildren =
@@ -179,6 +211,8 @@ export interface FileRoutesByFullPath {
   '/signup': typeof SignupRoute
   '/posts': typeof AuthedPostsRouteRouteWithChildren
   '/posts/$postId': typeof AuthedPostsPostIdRoute
+  '/setadmin/api': typeof AuthedSetadminApiRoute
+  '/users/api': typeof AuthedUsersApiRoute
   '/posts/': typeof AuthedPostsIndexRoute
 }
 
@@ -189,6 +223,8 @@ export interface FileRoutesByTo {
   '/logout': typeof LogoutRoute
   '/signup': typeof SignupRoute
   '/posts/$postId': typeof AuthedPostsPostIdRoute
+  '/setadmin/api': typeof AuthedSetadminApiRoute
+  '/users/api': typeof AuthedUsersApiRoute
   '/posts': typeof AuthedPostsIndexRoute
 }
 
@@ -202,6 +238,8 @@ export interface FileRoutesById {
   '/signup': typeof SignupRoute
   '/_authed/posts': typeof AuthedPostsRouteRouteWithChildren
   '/_authed/posts/$postId': typeof AuthedPostsPostIdRoute
+  '/_authed/setadmin/api': typeof AuthedSetadminApiRoute
+  '/_authed/users/api': typeof AuthedUsersApiRoute
   '/_authed/posts/': typeof AuthedPostsIndexRoute
 }
 
@@ -215,9 +253,20 @@ export interface FileRouteTypes {
     | '/signup'
     | '/posts'
     | '/posts/$postId'
+    | '/setadmin/api'
+    | '/users/api'
     | '/posts/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '' | '/login' | '/logout' | '/signup' | '/posts/$postId' | '/posts'
+  to:
+    | '/'
+    | ''
+    | '/login'
+    | '/logout'
+    | '/signup'
+    | '/posts/$postId'
+    | '/setadmin/api'
+    | '/users/api'
+    | '/posts'
   id:
     | '__root__'
     | '/'
@@ -228,6 +277,8 @@ export interface FileRouteTypes {
     | '/signup'
     | '/_authed/posts'
     | '/_authed/posts/$postId'
+    | '/_authed/setadmin/api'
+    | '/_authed/users/api'
     | '/_authed/posts/'
   fileRoutesById: FileRoutesById
 }
@@ -274,7 +325,9 @@ export const routeTree = rootRoute
     "/_authed": {
       "filePath": "_authed.tsx",
       "children": [
-        "/_authed/posts"
+        "/_authed/posts",
+        "/_authed/setadmin/api",
+        "/_authed/users/api"
       ]
     },
     "/_protected": {
@@ -300,6 +353,14 @@ export const routeTree = rootRoute
     "/_authed/posts/$postId": {
       "filePath": "_authed/posts.$postId.tsx",
       "parent": "/_authed/posts"
+    },
+    "/_authed/setadmin/api": {
+      "filePath": "_authed/setadmin.api.ts",
+      "parent": "/_authed"
+    },
+    "/_authed/users/api": {
+      "filePath": "_authed/users.api.ts",
+      "parent": "/_authed"
     },
     "/_authed/posts/": {
       "filePath": "_authed/posts.index.tsx",

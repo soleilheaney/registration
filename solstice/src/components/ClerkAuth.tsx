@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { SignIn, SignUp, UserButton, useUser } from '@clerk/clerk-react';
 import { Link } from '@tanstack/react-router';
+import { findOrCreateUser } from '../utils/user';
 
 export function ClerkSignIn() {
   return (
@@ -22,6 +23,52 @@ export function ClerkSignUp() {
       </div>
     </div>
   );
+}
+
+// This component syncs Clerk user with our database
+export function ClerkUserSync() {
+  const { isSignedIn, user, isLoaded } = useUser();
+  const [synced, setSynced] = React.useState(false);
+  
+  React.useEffect(() => {
+    if (isLoaded && isSignedIn && user && !synced) {
+      // Sync user with our database
+      const syncUser = async () => {
+        try {
+          // Find or create the user in our database
+          const dbUser = await findOrCreateUser(user);
+          
+          // Check if this is the first user in the system and make them an admin
+          // This is a common pattern for bootstrapping the first admin user
+          const allUsers = await fetch('/users/api').then(res => res.json());
+          
+          if (allUsers.length === 1 && allUsers[0].id === dbUser.id && dbUser.role !== 'ADMIN') {
+            console.log('Setting first user as admin:', dbUser.email);
+            
+            // Set as admin using a server API call
+            await fetch('/api/setadmin', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ 
+                clerkId: dbUser.clerkId 
+              }),
+            });
+          }
+          
+          setSynced(true);
+        } catch (error) {
+          console.error('Error syncing user with database:', error);
+        }
+      };
+      
+      syncUser();
+    }
+  }, [isLoaded, isSignedIn, user, synced]);
+  
+  // This is just a utility component that doesn't render anything
+  return null;
 }
 
 export function ClerkUserProfile() {
