@@ -1,25 +1,26 @@
 node_modules
-package-lock.json
-yarn.lock
 
-.env
+# Ignore lockfiles we don't use
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
+# bun.lock
+
 .DS_Store
 .cache
+.env
+
+.data
 .vercel
 .output
 .vinxi
-
+.wrangler
+.netlify
+dist
 /build/
 /api/
 /server/build
 /public/build
-.vinxi
-# Sentry Config File
-.env.sentry-build-plugin
-/test-results/
-/playwright-report/
-/blob-report/
-/playwright/.cache/
 
 # sst
 .sst

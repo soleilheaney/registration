@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { SignIn, SignUp, UserButton, useUser } from '@clerk/clerk-react';
 import { Link } from '@tanstack/react-router';
-import { findOrCreateUser, setUserAsAdmin } from '../utils/user';
 
 export function ClerkSignIn() {
   return (
@@ -32,28 +31,31 @@ export function ClerkUserSync() {
   
   React.useEffect(() => {
     if (isLoaded && isSignedIn && user && !synced) {
-      // Sync user with our database
-      const syncUser = async () => {
+      // Sync user with our database via API
+      const handleSync = async () => {
         try {
-          // Find or create the user in our database
-          const dbUser = await findOrCreateUser(user);
+          console.log('Syncing user with database:', user.primaryEmailAddress?.emailAddress);
           
-          // We'll instead print debug info that we can see in the console
-          console.log('User created/found in database:', dbUser);
+          // Call our API endpoint to sync the user
+          const response = await fetch('/syncUser/api', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              clerkId: user.id,
+              email: user.primaryEmailAddress?.emailAddress,
+              firstName: user.firstName,
+              lastName: user.lastName,
+            }),
+          });
           
-          // Check if it's the first user (first user becomes admin automatically)
-          if (dbUser.role !== 'ADMIN') {
-            try {
-              console.log('Checking if this is the first user to make them admin:', dbUser.email);
-              
-              // Let's directly use our setUserAsAdmin utility function instead of an API call
-              // This will be more reliable for now
-              const updatedUser = await setUserAsAdmin(dbUser.clerkId);
-              console.log('User set as admin:', updatedUser);
-            } catch (error) {
-              console.error('Error setting admin status:', error);
-            }
+          if (!response.ok) {
+            throw new Error(`Failed to sync user: ${response.statusText}`);
           }
+          
+          const result = await response.json();
+          console.log('User synced with database:', result);
           
           setSynced(true);
         } catch (error) {
@@ -61,7 +63,7 @@ export function ClerkUserSync() {
         }
       };
       
-      syncUser();
+      handleSync();
     }
   }, [isLoaded, isSignedIn, user, synced]);
   

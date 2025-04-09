@@ -11,45 +11,22 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as SignupImport } from './routes/signup'
-import { Route as LogoutImport } from './routes/logout'
-import { Route as LoginImport } from './routes/login'
-import { Route as ProtectedImport } from './routes/_protected'
-import { Route as AuthedImport } from './routes/_authed'
+import { Route as SigninImport } from './routes/signin'
+import { Route as DashboardRouteImport } from './routes/dashboard/route'
 import { Route as IndexImport } from './routes/index'
-import { Route as AuthedPostsRouteImport } from './routes/_authed/posts.route'
-import { Route as AuthedPostsIndexImport } from './routes/_authed/posts.index'
-import { Route as AuthedUsersApiImport } from './routes/_authed/users.api'
-import { Route as AuthedSetadminApiImport } from './routes/_authed/setadmin.api'
-import { Route as AuthedPostsPostIdImport } from './routes/_authed/posts.$postId'
+import { Route as DashboardIndexImport } from './routes/dashboard/index'
 
 // Create/Update Routes
 
-const SignupRoute = SignupImport.update({
-  id: '/signup',
-  path: '/signup',
+const SigninRoute = SigninImport.update({
+  id: '/signin',
+  path: '/signin',
   getParentRoute: () => rootRoute,
 } as any)
 
-const LogoutRoute = LogoutImport.update({
-  id: '/logout',
-  path: '/logout',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const LoginRoute = LoginImport.update({
-  id: '/login',
-  path: '/login',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const ProtectedRoute = ProtectedImport.update({
-  id: '/_protected',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const AuthedRoute = AuthedImport.update({
-  id: '/_authed',
+const DashboardRouteRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -59,34 +36,10 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const AuthedPostsRouteRoute = AuthedPostsRouteImport.update({
-  id: '/posts',
-  path: '/posts',
-  getParentRoute: () => AuthedRoute,
-} as any)
-
-const AuthedPostsIndexRoute = AuthedPostsIndexImport.update({
+const DashboardIndexRoute = DashboardIndexImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => AuthedPostsRouteRoute,
-} as any)
-
-const AuthedUsersApiRoute = AuthedUsersApiImport.update({
-  id: '/users/api',
-  path: '/users/api',
-  getParentRoute: () => AuthedRoute,
-} as any)
-
-const AuthedSetadminApiRoute = AuthedSetadminApiImport.update({
-  id: '/setadmin/api',
-  path: '/setadmin/api',
-  getParentRoute: () => AuthedRoute,
-} as any)
-
-const AuthedPostsPostIdRoute = AuthedPostsPostIdImport.update({
-  id: '/$postId',
-  path: '/$postId',
-  getParentRoute: () => AuthedPostsRouteRoute,
+  getParentRoute: () => DashboardRouteRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -100,205 +53,84 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
-    '/_authed': {
-      id: '/_authed'
-      path: ''
-      fullPath: ''
-      preLoaderRoute: typeof AuthedImport
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
       parentRoute: typeof rootRoute
     }
-    '/_protected': {
-      id: '/_protected'
-      path: ''
-      fullPath: ''
-      preLoaderRoute: typeof ProtectedImport
+    '/signin': {
+      id: '/signin'
+      path: '/signin'
+      fullPath: '/signin'
+      preLoaderRoute: typeof SigninImport
       parentRoute: typeof rootRoute
     }
-    '/login': {
-      id: '/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof LoginImport
-      parentRoute: typeof rootRoute
-    }
-    '/logout': {
-      id: '/logout'
-      path: '/logout'
-      fullPath: '/logout'
-      preLoaderRoute: typeof LogoutImport
-      parentRoute: typeof rootRoute
-    }
-    '/signup': {
-      id: '/signup'
-      path: '/signup'
-      fullPath: '/signup'
-      preLoaderRoute: typeof SignupImport
-      parentRoute: typeof rootRoute
-    }
-    '/_authed/posts': {
-      id: '/_authed/posts'
-      path: '/posts'
-      fullPath: '/posts'
-      preLoaderRoute: typeof AuthedPostsRouteImport
-      parentRoute: typeof AuthedImport
-    }
-    '/_authed/posts/$postId': {
-      id: '/_authed/posts/$postId'
-      path: '/$postId'
-      fullPath: '/posts/$postId'
-      preLoaderRoute: typeof AuthedPostsPostIdImport
-      parentRoute: typeof AuthedPostsRouteImport
-    }
-    '/_authed/setadmin/api': {
-      id: '/_authed/setadmin/api'
-      path: '/setadmin/api'
-      fullPath: '/setadmin/api'
-      preLoaderRoute: typeof AuthedSetadminApiImport
-      parentRoute: typeof AuthedImport
-    }
-    '/_authed/users/api': {
-      id: '/_authed/users/api'
-      path: '/users/api'
-      fullPath: '/users/api'
-      preLoaderRoute: typeof AuthedUsersApiImport
-      parentRoute: typeof AuthedImport
-    }
-    '/_authed/posts/': {
-      id: '/_authed/posts/'
+    '/dashboard/': {
+      id: '/dashboard/'
       path: '/'
-      fullPath: '/posts/'
-      preLoaderRoute: typeof AuthedPostsIndexImport
-      parentRoute: typeof AuthedPostsRouteImport
+      fullPath: '/dashboard/'
+      preLoaderRoute: typeof DashboardIndexImport
+      parentRoute: typeof DashboardRouteImport
     }
   }
 }
 
 // Create and export the route tree
 
-interface AuthedPostsRouteRouteChildren {
-  AuthedPostsPostIdRoute: typeof AuthedPostsPostIdRoute
-  AuthedPostsIndexRoute: typeof AuthedPostsIndexRoute
+interface DashboardRouteRouteChildren {
+  DashboardIndexRoute: typeof DashboardIndexRoute
 }
 
-const AuthedPostsRouteRouteChildren: AuthedPostsRouteRouteChildren = {
-  AuthedPostsPostIdRoute: AuthedPostsPostIdRoute,
-  AuthedPostsIndexRoute: AuthedPostsIndexRoute,
+const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
+  DashboardIndexRoute: DashboardIndexRoute,
 }
 
-const AuthedPostsRouteRouteWithChildren =
-  AuthedPostsRouteRoute._addFileChildren(AuthedPostsRouteRouteChildren)
-
-interface AuthedRouteChildren {
-  AuthedPostsRouteRoute: typeof AuthedPostsRouteRouteWithChildren
-  AuthedSetadminApiRoute: typeof AuthedSetadminApiRoute
-  AuthedUsersApiRoute: typeof AuthedUsersApiRoute
-}
-
-const AuthedRouteChildren: AuthedRouteChildren = {
-  AuthedPostsRouteRoute: AuthedPostsRouteRouteWithChildren,
-  AuthedSetadminApiRoute: AuthedSetadminApiRoute,
-  AuthedUsersApiRoute: AuthedUsersApiRoute,
-}
-
-const AuthedRouteWithChildren =
-  AuthedRoute._addFileChildren(AuthedRouteChildren)
+const DashboardRouteRouteWithChildren = DashboardRouteRoute._addFileChildren(
+  DashboardRouteRouteChildren,
+)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '': typeof ProtectedRoute
-  '/login': typeof LoginRoute
-  '/logout': typeof LogoutRoute
-  '/signup': typeof SignupRoute
-  '/posts': typeof AuthedPostsRouteRouteWithChildren
-  '/posts/$postId': typeof AuthedPostsPostIdRoute
-  '/setadmin/api': typeof AuthedSetadminApiRoute
-  '/users/api': typeof AuthedUsersApiRoute
-  '/posts/': typeof AuthedPostsIndexRoute
+  '/dashboard': typeof DashboardRouteRouteWithChildren
+  '/signin': typeof SigninRoute
+  '/dashboard/': typeof DashboardIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '': typeof ProtectedRoute
-  '/login': typeof LoginRoute
-  '/logout': typeof LogoutRoute
-  '/signup': typeof SignupRoute
-  '/posts/$postId': typeof AuthedPostsPostIdRoute
-  '/setadmin/api': typeof AuthedSetadminApiRoute
-  '/users/api': typeof AuthedUsersApiRoute
-  '/posts': typeof AuthedPostsIndexRoute
+  '/signin': typeof SigninRoute
+  '/dashboard': typeof DashboardIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
-  '/_authed': typeof AuthedRouteWithChildren
-  '/_protected': typeof ProtectedRoute
-  '/login': typeof LoginRoute
-  '/logout': typeof LogoutRoute
-  '/signup': typeof SignupRoute
-  '/_authed/posts': typeof AuthedPostsRouteRouteWithChildren
-  '/_authed/posts/$postId': typeof AuthedPostsPostIdRoute
-  '/_authed/setadmin/api': typeof AuthedSetadminApiRoute
-  '/_authed/users/api': typeof AuthedUsersApiRoute
-  '/_authed/posts/': typeof AuthedPostsIndexRoute
+  '/dashboard': typeof DashboardRouteRouteWithChildren
+  '/signin': typeof SigninRoute
+  '/dashboard/': typeof DashboardIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths:
-    | '/'
-    | ''
-    | '/login'
-    | '/logout'
-    | '/signup'
-    | '/posts'
-    | '/posts/$postId'
-    | '/setadmin/api'
-    | '/users/api'
-    | '/posts/'
+  fullPaths: '/' | '/dashboard' | '/signin' | '/dashboard/'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | ''
-    | '/login'
-    | '/logout'
-    | '/signup'
-    | '/posts/$postId'
-    | '/setadmin/api'
-    | '/users/api'
-    | '/posts'
-  id:
-    | '__root__'
-    | '/'
-    | '/_authed'
-    | '/_protected'
-    | '/login'
-    | '/logout'
-    | '/signup'
-    | '/_authed/posts'
-    | '/_authed/posts/$postId'
-    | '/_authed/setadmin/api'
-    | '/_authed/users/api'
-    | '/_authed/posts/'
+  to: '/' | '/signin' | '/dashboard'
+  id: '__root__' | '/' | '/dashboard' | '/signin' | '/dashboard/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AuthedRoute: typeof AuthedRouteWithChildren
-  ProtectedRoute: typeof ProtectedRoute
-  LoginRoute: typeof LoginRoute
-  LogoutRoute: typeof LogoutRoute
-  SignupRoute: typeof SignupRoute
+  DashboardRouteRoute: typeof DashboardRouteRouteWithChildren
+  SigninRoute: typeof SigninRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AuthedRoute: AuthedRouteWithChildren,
-  ProtectedRoute: ProtectedRoute,
-  LoginRoute: LoginRoute,
-  LogoutRoute: LogoutRoute,
-  SignupRoute: SignupRoute,
+  DashboardRouteRoute: DashboardRouteRouteWithChildren,
+  SigninRoute: SigninRoute,
 }
 
 export const routeTree = rootRoute
@@ -312,59 +144,25 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/_authed",
-        "/_protected",
-        "/login",
-        "/logout",
-        "/signup"
+        "/dashboard",
+        "/signin"
       ]
     },
     "/": {
       "filePath": "index.tsx"
     },
-    "/_authed": {
-      "filePath": "_authed.tsx",
+    "/dashboard": {
+      "filePath": "dashboard/route.tsx",
       "children": [
-        "/_authed/posts",
-        "/_authed/setadmin/api",
-        "/_authed/users/api"
+        "/dashboard/"
       ]
     },
-    "/_protected": {
-      "filePath": "_protected.tsx"
+    "/signin": {
+      "filePath": "signin.tsx"
     },
-    "/login": {
-      "filePath": "login.tsx"
-    },
-    "/logout": {
-      "filePath": "logout.tsx"
-    },
-    "/signup": {
-      "filePath": "signup.tsx"
-    },
-    "/_authed/posts": {
-      "filePath": "_authed/posts.route.tsx",
-      "parent": "/_authed",
-      "children": [
-        "/_authed/posts/$postId",
-        "/_authed/posts/"
-      ]
-    },
-    "/_authed/posts/$postId": {
-      "filePath": "_authed/posts.$postId.tsx",
-      "parent": "/_authed/posts"
-    },
-    "/_authed/setadmin/api": {
-      "filePath": "_authed/setadmin.api.ts",
-      "parent": "/_authed"
-    },
-    "/_authed/users/api": {
-      "filePath": "_authed/users.api.ts",
-      "parent": "/_authed"
-    },
-    "/_authed/posts/": {
-      "filePath": "_authed/posts.index.tsx",
-      "parent": "/_authed/posts"
+    "/dashboard/": {
+      "filePath": "dashboard/index.tsx",
+      "parent": "/dashboard"
     }
   }
 }

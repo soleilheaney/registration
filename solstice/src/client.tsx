@@ -1,15 +1,14 @@
 /// <reference types="vinxi/types/client" />
-import { hydrateRoot } from 'react-dom/client'
-import { StartClient } from '@tanstack/react-start'
-import { createRouter } from './router'
-import { ClerkProvider } from '@clerk/clerk-react'
+import { StartClient } from "@tanstack/react-start";
+import { StrictMode } from "react";
+import { hydrateRoot } from "react-dom/client";
+import { createRouter } from "./router";
 
-const router = createRouter()
-const publishableKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
+const router = createRouter();
 
 hydrateRoot(
   document,
-  <ClerkProvider publishableKey={publishableKey}>
+  <StrictMode>
     <StartClient router={router} />
-  </ClerkProvider>
-)
+  </StrictMode>,
+);

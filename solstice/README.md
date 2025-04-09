@@ -18,53 +18,75 @@ The Quadball Canada Registration & Events Platform is a web application designed
 
 - **TanStack Start (React framework):** Type-safe React framework with file-based routing and SSR
 - **AWS Lambda via SST (Serverless Stack):** Serverless deployment with infrastructure as code
-- **Prisma ORM + Database:** Type-safe database client with SQLite (dev) and PostgreSQL (prod)
-- **Authentication Provider (Clerk):** Complete user management platform with pre-built UI components
+- **Drizzle ORM + PostgreSQL:** Type-safe database client with PostgreSQL
+- **Authentication (Better Auth):** Complete user management with OAuth providers
 - **Email Provider (Resend):** Developer-focused email API for transactional emails
 - **File Storage (AWS S3):** File storage for team logos, profile pictures, etc.
-- **UI and Frontend Libraries:** Tailwind CSS with component libraries (Radix UI/Shadcn)
+- **UI and Frontend Libraries:** Tailwind CSS with shadcn/ui components
 
 ## Project Structure
 
 - `src/` – TanStack Start application
   - `routes/` – Page and API route components with file-based routing
-  - `components/` – Reusable UI components
-  - `utils/` – Utility functions and API wrappers
-  - `server/` – Server-side logic (if separated)
-- `prisma/` – Database schema and migrations
+  - `lib/components/` – Reusable UI components
+  - `lib/server/` – Server-side logic and database schema
+  - `lib/middleware/` – Auth guards and middleware
+  - `lib/styles/` – Application styles
+- `drizzle/` – Database schema migrations
 - `sst.config.ts` – SST configuration and AWS resource definitions
-- `tickets/` – Implementation tickets organized by phase
 
 ## Local Development Setup
 
 ### Prerequisites
 
-- Node.js (>=18) and npm
+- Node.js (>=18) and pnpm/npm
+- PostgreSQL 17 (for local development)
 - AWS CLI configured (for deployment)
 
 ### Setup Steps
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/your-org/quadball-platform.git
-   cd quadball-platform
+   git clone https://github.com/soleilheaney/registration.git
+   cd registration/solstice
    ```
 
 2. **Install dependencies:**
    ```bash
-   npm install
+   pnpm install
    ```
 
-3. **Configure AWS credentials and region**
+3. **Set up PostgreSQL database:**
+   ```bash
+   # Install PostgreSQL (if not already installed)
+   brew install postgresql@17
+   
+   # Start PostgreSQL service
+   brew services start postgresql@17
+   
+   # Create database user and set password
+   createuser -s postgres
+   psql -c "ALTER USER postgres WITH PASSWORD 'postgres';" postgres
+   
+   # Create the application database
+   createdb -U postgres solstice
+   ```
+
+4. **Configure AWS credentials and region**
    ```bash
    aws configure sso
    ```
    Or include manual credentials in `~/.aws/credentials` file
    Either way, use profile soleil-dev
 
-4. **Run the development server:**
+5. **Push database schema:**
    ```bash
-   npx sst dev
+   pnpm db push
+   ```
+
+6. **Run the development server:**
+   ```bash
+   AWS_PROFILE=soleil-dev npx sst dev
    ```
    Access the app at http://localhost:3000
 
@@ -75,7 +97,11 @@ Deploying to AWS is done via SST:
 1. **Configure AWS credentials and region**
 2. **Deploy with SST:**
    ```bash
-   npx sst deploy --stage dev
+   AWS_PROFILE=soleil-dev npx sst deploy --stage dev
+   ```
+   For production:
+   ```bash
+   AWS_PROFILE=soleil-production npx sst deploy --stage production
    ```
 
 ## Implementation Plan
@@ -89,56 +115,16 @@ The project is divided into six phases, each with specific goals:
 5. **Communication & Advanced Features** - Dashboards, notifications, and UI polish
 6. **Multi-Organization & Scalability** - Support for multiple organizations
 
-Detailed tickets for each phase are available in the `tickets/` directory.
+## Issue Watchlist
 
-## Getting Started with Development
+Always check for breaking changes and updates to TanStack Router:
+- https://github.com/TanStack/router/discussions/2863
 
-To begin implementation:
-1. Review the Phase 1 tickets in detail
-2. Set up your development environment following the instructions above
-3. Start with the "Set up TanStack Start app in SST" ticket
+## Auth
 
-For more information on the implementation plan and architecture decisions, see the detailed tickets in the `tickets/` directory.
+Better Auth is currently configured for OAuth with GitHub, Google, and Discord, but can be easily modified to use other providers.
 
-## Detailed Setup and Deployment Instructions
+## Utilities
 
-### Initial Setup
-
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/soleilheaney/registration.git
-   cd registration/solstice
-   ```
-
-2. **Install dependencies:**
-   ```bash
-   npm install
-   ```
-
-3. **Configure AWS credentials:**
-   Follow the AWS SSO login instructions from the main README, or run:
-   ```bash
-   aws sso login --profile soleil-dev
-   ```
-
-### Local Development
-
-1. **Start the SST development environment:**
-   ```bash
-   AWS_PROFILE=soleil-dev npx sst dev
-   ```
-
-2. **Access the application:**
-   Once you see "Complete" in the SST output (usually within 10 seconds), open http://localhost:3000 in your browser
-
-### Deployment
-
-1. **Deploy to AWS development environment:**
-   ```bash
-   AWS_PROFILE=soleil-dev npx sst deploy --stage dev
-   ```
-
-2. **For production deployment:**
-   ```bash
-   AWS_PROFILE=soleil-production npx sst deploy --stage production
-   ```
+- [`auth-guard.ts`](./src/lib/middleware/auth-guard.ts) - Middleware for forcing authentication on server functions.
+- [`ThemeToggle.tsx`](./src/lib/components/ThemeToggle.tsx) - Toggle between light and dark mode.

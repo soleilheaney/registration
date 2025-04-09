@@ -1,76 +1,74 @@
-import { createFileRoute } from '@tanstack/react-router'
-import { Button } from '../components/ui/button'
+import { Link, createFileRoute, useRouter } from "@tanstack/react-router";
+import authClient from "~/lib/auth-client";
+import ThemeToggle from "~/lib/components/ThemeToggle";
+import { Button } from "~/lib/components/ui/button";
 
-export const Route = createFileRoute('/')({
+export const Route = createFileRoute("/")({
   component: Home,
-})
+  loader: ({ context }) => {
+    return { user: context.user };
+  },
+});
 
 function Home() {
+  const { queryClient } = Route.useRouteContext();
+  const { user } = Route.useLoaderData();
+  const router = useRouter();
+
   return (
-    <div className="min-h-screen bg-white">
-      {/* Header with red background */}
-      <header className="bg-red-800 text-white py-4">
-        <div className="container mx-auto px-4 flex justify-between items-center">
-          <h1 className="text-2xl font-bold">Sports Registration</h1>
-          <nav className="space-x-4">
-            <a href="#" className="hover:underline">Events</a>
-            <a href="#" className="hover:underline">About</a>
-            <a href="#" className="hover:underline">Contact</a>
-          </nav>
-        </div>
-      </header>
+    <div className="flex flex-col gap-4 p-6">
+      <h1 className="text-4xl font-bold">React TanStarter</h1>
+      <div className="flex items-center gap-2">
+        This is an unprotected page:
+        <pre className="bg-card text-card-foreground rounded-md border p-1">
+          routes/index.tsx
+        </pre>
+      </div>
 
-      {/* Hero section */}
-      <section className="py-16 bg-gray-100">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-4xl font-bold text-red-800 mb-4">Welcome to Sports Registration</h2>
-          <p className="text-lg text-gray-700 mb-8 max-w-2xl mx-auto">
-            Register for upcoming sports events and tournaments across Canada. Join the community and participate in exciting competitions!
-          </p>
-          <div className="space-x-4">
-            <Button>Register Now</Button>
-            <Button variant="outline">Browse Events</Button>
+      {user ? (
+        <div className="flex flex-col gap-2">
+          <p>Welcome back, {user.name}!</p>
+          <Button type="button" asChild className="w-fit" size="lg">
+            <Link to="/dashboard">Go to Dashboard</Link>
+          </Button>
+          <div>
+            More data:
+            <pre>{JSON.stringify(user, null, 2)}</pre>
           </div>
-        </div>
-      </section>
 
-      {/* Features section */}
-      <section className="py-16">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center text-red-800 mb-12">Why Register With Us</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <h3 className="text-xl font-semibold text-red-800 mb-3">Easy Registration</h3>
-              <p className="text-gray-600">Simple and quick registration process for all events.</p>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <h3 className="text-xl font-semibold text-red-800 mb-3">Nationwide Events</h3>
-              <p className="text-gray-600">Access to sports events across all of Canada.</p>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <h3 className="text-xl font-semibold text-red-800 mb-3">Community Support</h3>
-              <p className="text-gray-600">Join a thriving community of sports enthusiasts.</p>
-            </div>
-          </div>
+          <Button
+            onClick={async () => {
+              await authClient.signOut();
+              await queryClient.invalidateQueries({ queryKey: ["user"] });
+              await router.invalidate();
+            }}
+            type="button"
+            className="w-fit"
+            variant="destructive"
+            size="lg"
+          >
+            Sign out
+          </Button>
         </div>
-      </section>
+      ) : (
+        <div className="flex flex-col gap-2">
+          <p>You are not signed in.</p>
+          <Button type="button" asChild className="w-fit" size="lg">
+            <Link to="/signin">Sign in</Link>
+          </Button>
+        </div>
+      )}
 
-      {/* Footer */}
-      <footer className="bg-red-800 text-white py-8">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="mb-4 md:mb-0">
-              <h2 className="text-xl font-bold">Sports Registration</h2>
-              <p className="text-sm mt-2">© 2025 All Rights Reserved</p>
-            </div>
-            <div className="flex space-x-4">
-              <a href="#" className="hover:underline">Privacy Policy</a>
-              <a href="#" className="hover:underline">Terms of Service</a>
-              <a href="#" className="hover:underline">Contact Us</a>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <ThemeToggle />
+
+      <a
+        className="text-muted-foreground hover:text-foreground underline"
+        href="https://github.com/dotnize/react-tanstarter"
+        target="_blank"
+        rel="noreferrer noopener"
+      >
+        dotnize/react-tanstarter
+      </a>
     </div>
-  )
+  );
 }

@@ -9,17 +9,6 @@ declare module "sst" {
       "type": "sst.aws.TanstackStart"
       "url": string
     }
-    "SolsticeDB": {
-      "database": string
-      "host": string
-      "password": string
-      "port": number
-      "type": "sst.aws.Postgres"
-      "username": string
-    }
-    "SolsticeVpc": {
-      "type": "sst.aws.Vpc"
-    }
   }
 }
 /// <reference path="sst-env.d.ts" />

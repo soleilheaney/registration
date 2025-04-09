@@ -1,18 +1,38 @@
-import { defineConfig } from '@tanstack/react-start/config'
-import tsConfigPaths from 'vite-tsconfig-paths'
+import tailwindcss from "@tailwindcss/vite";
+import { defineConfig } from "@tanstack/react-start/config";
+import tsConfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig({
-  server: {
-    preset: 'aws-lambda'
-  },
-  tsr: {
-    appDirectory: 'src',
-  },
   vite: {
     plugins: [
       tsConfigPaths({
-        projects: ['./tsconfig.json'],
+        projects: ["./tsconfig.json"],
       }),
+      tailwindcss(),
     ],
   },
-})
+
+  // https://react.dev/learn/react-compiler
+  react: {
+    babel: {
+      plugins: [
+        [
+          "babel-plugin-react-compiler",
+          {
+            target: "19",
+          },
+        ],
+      ],
+    },
+  },
+
+  tsr: {
+    // Check for breaking changes: https://github.com/TanStack/router/discussions/2863
+    appDirectory: "./src",
+  },
+
+  server: {
+    // For SST deployment using AWS Lambda
+    preset: "aws-lambda",
+  },
+});
